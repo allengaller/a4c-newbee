@@ -1,5 +1,8 @@
 #include "stdio.h"
 
 void main() {
-    printf("123");
+    for(int i=0;i<2;i++) {
+    fork();
+    printf('a\n');
+}
 }

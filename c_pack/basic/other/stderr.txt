@@ -1,0 +1,19 @@
+﻿C Shell 下的stderr 重定向
+周五, 01/15/2010 - 18:47 — admin
+
+    文章分类:
+        脚本代码
+    自由标签:
+        shell |
+        Linux |
+        CShell
+
+在C Shell下面不能直接使用
+
+    2>&1
+
+将stderr的内容重定向到stdout，需要用下面的方法来实现：
+
+    ( rm dir >out.txt ) >& err.txt
+
+原因是cshell不能单独重定向stderr，只能重定向标准输出stdout，或>&同时重定向stdout和stderr，故只有先在子shell先将stdout重定向到某处，相当于先把stdout过滤掉。

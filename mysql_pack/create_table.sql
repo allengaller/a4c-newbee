@@ -1,0 +1,5 @@
+CREATE TABLE `posts` (
+ `id` int(10) unsigned NOT NULL AUTO_INCREMENT,posts
+
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

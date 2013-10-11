@@ -1,4 +1,10 @@
 coder.learnpack
 ===============
 
-Learn  by coding while reading.
+Learn coding by priactice.
+--------------------------
+
+This is a complete "head-first" code package for web developer.
+
+Enjoy yourself!
+

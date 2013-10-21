@@ -1,5 +1,5 @@
-coder.learnpack
-===============
+# Newbee - Be a bee 秒入门 #
+* aka the coder.learnpack project *
 
 Learn coding by priactice.
 --------------------------

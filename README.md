@@ -1,10 +1,4 @@
-# Newbee - Be a bee 秒入门 #
+# Newbee - Be a bee #
 * aka the coder.learnpack project *
 
-Learn coding by priactice.
---------------------------
-
-This is a complete "head-first" code package for web developer.
-
-Enjoy yourself!
-
+All we want, is becoming a better developer, and delivering better solution to the world.

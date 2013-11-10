@@ -1,0 +1,1345 @@
+
+Version 2.51 - (C)1999, 2000 Jonathan Bennett
+
+(Email: support@hiddensoft.com)
+
+中文翻译 - (C)2000 Boris Xing
+
+(Email:boris@sy163.net)
+
+AutoIt 主页
+
+
+
+命令索引
+
+[AdlibOn] [AdlibOff] [BlockInput] [Break] [DetectHiddenText] [Exit] [EndRepeat] [EnvAdd] [EnvSub] [FileAppend] [FileReadLine] [Gosub] [Goto] [HideAutoItWin] [IfInString] [IfNotInString] [IfWinExist] [IfWinNotExist] [IfWinActive] [IfWinNotActive] [IfEqual] [IfNotEqual] [IfGreater] [IfGreaterOrEqual] [IfLess] [IfLessOrEqual] [IfExist] [IfNotExist] [IfMsgBox] [IniRead] [IniWrite] [IniDelete] [InputBox] [LeftClick] [LeftClickDrag] [MouseGetPos] [MouseMove] [MsgBox] [Random] [RegRead] [RegWrite] [RegDelete] [Return] [RightClick] [RightClickDrag] [Run] [RunWait] [Repeat] [Send] [SetEnv] [SetKeyDelay] [SetTitleMatchMode] [SetWinDelay] [Shutdown] [Sleep] [SplashTextOn] [SplashTextOff] [StringCaseSense] [StringLeft] [StringRight] [StringMid] [StringLen] [StringReplace] [StringTrimLeft] [StringTrimRight] [WinGetActiveTitle] [WinKill] [WinWait] [WinWaitClose] [WinWaitActive] [WinWaitNotActive] [WinHide] [WinRestore] [WinShow] [WinMinimize] [WinMaximize] [WinActivate] [WinClose] [WinMinimizeAll] [WinMove] [WinSetTitle] 
+
+
+
+目录
+
+1. 引言
+
+2. 预期的用途
+
+3. 许可
+
+4. 2000年声明
+
+5. 文档约定
+
+6. 运行 AutoIt
+
+7. Aut2Exe - 脚本转换为Exe文件
+
+8. 脚本语法
+
+9. 窗口标题与窗口文本
+
+10. DOS 环境变量
+
+11.剪贴板变量
+
+12.特殊变量
+
+13. 脚本命令
+
+14. Send 命令语法
+
+15. [ADLIB] 节
+
+16. 示例
+
+17. AutoIt 历史
+
+18. 愿望列单
+
+19. 致谢...
+
+20. 翻译后记
+
+
+
+引言
+
+AutoIt 是一种自动控制工具。它可以被用来自动完成任何基于 Windows 或 DOS 的简单任务。它最初被设计用来自动完成安装那些其它方法不能自动安装的软件。这在PC首次展示时非常有用，那时成百上千的机器需要被自动的安装。尽管有一些程序如 MS Office, Mcafee, IE4 等具有自动安装的组件，可还有太多的程序不具备自动安装的功能。那就是用到 AutoIt 的地方。AutoIt 也可以被用来在你的机器上完成简单的任务。
+
+AutoIt 运行时读取一个指定的脚本文件。这个脚本文件使得 AutoIt 完成一系列操作，包括
+
+执行程序（Windows 应用程序，DOS 命令，等等。）
+发出按键和鼠标点击（所有字符，不受键盘布局约束）。
+窗口操作（例如最小化，隐藏，恢复，等待，激活（同样适用 Win98/Win2000））。
+简单剪贴板文本操作。
+最值一提的是它很小（本身包含Exe文件，没有DLL文件，没有注册表项）而且免费！ （并且将保持免费).
+
+2.1 版后新加入的Aut2Exe。 本程序可以从一个 AutoIt 脚本创建可执行程序！
+
+2.21版后，你可以发送十进制 ASCII 代码，就像 ALT 键加数字小键盘（比如 ALT+65='A'） 非常有用来发送特定的字符（比如 '~' 在一个意大利键盘上）
+
+仍然需要本文件的非英文译本!(任何格式,只要你愿意对它进行维护) - 去 AutoIt 主页查看哪种语言已经被完成。
+
+返回目录
+
+
+
+预期的用途
+
+这个程序是为了在Windows中执行一些简单的任务。它不是作为包揽一切的脚本。在完成复杂的任务时（注册表操作，文本文件解析，复杂循环，等等）我推荐和 AutoIt 一起使用一种全能的脚本语言（像WSH或Kixtart -都是免费的）用 AutoIt "填补空隙"。当前 AutoIt 的原则是"如果它不能在单行完成 - 它可能太复杂"。这个方法至今做得很好，并且把 AutoIt 的大小保持很低（真是一个很小的执行档）。
+
+我亲自使用 AutoIt 来作大量的PC 安装。我从头到尾用 Kixtart/WSH 来拷贝文件，运行文件，编辑注册表，然后调用 AutoIt 在我需要完成只能通过手工输入完成的配置时（软件安装，控制面板配置，改变盘符，等等）。
+
+返回目录
+
+
+
+许可
+
+查看软件包内的License.txt。
+
+返回目录
+
+
+
+2000年声明
+
+AutoIt 就作者所知已经解决2000年问题，不过还是请查看许可中放弃承担的责任。
+
+返回目录
+
+
+
+约定
+
+参数显示在尖括号内， 可选参数显示在方括号内。
+
+举例
+<命令>, <参数1> [,<参数2>]
+
+这是一个命令，跟随一个逗号和参数1，可选地，跟随一个逗号和参数2。
+
+例如
+<命令>, <参数1>
+
+或
+
+<命令>, <参数1>, <参数2>
+
+返回目录
+
+
+
+
+运行 AutoIt
+
+AutoIt 可以在命令行中运行，或在资源管理器中双击它的图标。
+
+>>> 特别注意 运行AutoIt唯一必需 的文件是"AutoIt2.exe"，把这个文件放到任何 PC 的路径中，将允许在那个PC中用下面的命令行语法执行AutoIt 脚本。<<<
+
+命令行语法
+
+AutoIt 以一下两种方法在命令行中运行（确定 AutoIt2.exe 在你的路径中，或在 AutoIt 安装的目录中执行命令）：
+
+AutoIt2.exe /reveal
+
+或
+
+AutoIt2.exe <脚本文件名>
+
+
+展现模式
+
+"展现"模式时，AutoIt 窗口会在最顶端。在单击其它窗口使它们激活是，AutoIt 将显示它们的窗口标题，鼠标相对于窗口的坐标，和窗口中其他文本帮助区分就有相同标题的其它窗口。和 MS ScriptIt 一样，不是窗口中所以文本都能被"发现" - 进行实验！
+
+在 AutoIt展现屏幕中的信息可以用鼠标高亮显示并用 "CTRL-C"拷贝到剪贴板中，然后可以粘贴到其它程序或文本编辑器中。
+
+脚本模式
+
+AutoIt 会在命令行中执行给定的脚本。这个脚本可以是任何扩展名（如果你使用安装过的程序，.aut会被自动注册。右键单击一个.aut 文件将允许你运行或是编辑这个脚本。
+
+使用命令行参数
+
+使用如下的语法，参数可以从命令行传递给AutoIt脚本：
+
+AutoIt2.exe <脚本文件名> /p 参数1 参数2 参数3........参数3
+
+这些参数在脚本中是可用的作为环境变量 %1%, %2%, %3%, 等等。  
+
+如果一个参数需要包含空格，那么把它包含在双引号中， 例如:
+
+AutoIt2.exe testscript.aut /p "D:\A long pathname" var2
+
+%1% 匹配 D:\A long pathname
+
+%2% 匹配 var2
+
+返回目录
+
+
+
+Aut2Exe - 脚本转换为Exe文件
+
+Aut2Exe 可以和 AutoIt 一道被安装（只在完全安装中）。  本程序可以接受一个脚本文件并将其转换为可执行文件。 这个可执行文件能单独远行，不需要任何安装的 AutoIt 原始程序。 可以为产生的执行文件指定一个图标，必须是32*32象素16位色的图标文件（这个文件应该长766字节）。
+
+脚本在产生的执行文本接近末尾的地方是可见的，但它已经进行了加密处理来保护你的脚本。  (特别注意这个加密不是十分复杂，但它将阻止大多数 "可能是黑客" 访问你的脚本。 我知道我不能破解它，但我并不是专家... :) ）。
+
+以后的版本可能会对加了密的脚本进行解释（到那个时候别丢了你的原脚本!! ;)）。
+
+特别注意 你仍然可以在产生的执行文件中使用命令行变量通过运行"myscript.exe /p 参数1 参数2....."。
+
+返回目录
+
+
+
+脚本文件语法
+
+脚本文件是标准的文本文件可以赋予任何扩展名（尽管.aut是首选的扩展名）。每一行可以是一个命令，一个注释，一个标签或保留的空白。  
+
+特别注意 每行的最大字符数是 1024。  任何额外的字符会被忽略。
+
+; 脚本开始
+; 注释用一个冒号指出
+
+<命令>, <命令参数>
+<命令2>, <命令2参数>
+<命令3>, <命令3参数>
+
+; 这是一个标签，它必须以一个冒号(:)结束 ，它被想Gosub 和 Goto这样的命令调用。
+标签:
+
+;脚本结束
+Exit
+
+;ADLIB 节开始
+[ADLIB]
+<标题>, <文本>, <命令>, <命令参数>
+
+返回目录
+
+
+
+特殊字符
+
+反斜杠'\'，逗号 ','和百分号 '%'被视为特殊字符，使用它们时你必须小心一些。
+
+','在脚本文件中用力分隔参数。
+'%'用来包含DOS变量。
+
+如果要按原意使用这些字符，则必须在它们前面叫反斜杠 '\'，也就是说 "\,"或"\%"。如果用 '\' 本身就也加在前面，也就是说 "\\".
+
+"\n"和"\t"可以表示换行和制表符在AutoIt的输出功能 MsgBox 和 InputBox中。
+
+返回目录
+
+
+
+窗口标题和文本
+
+一些脚本命令把"窗口标题"和"窗口文本"作为参数。
+"窗口标题"是出现在窗口标题栏的文本。
+"窗口文本"是窗口中所有其它文本，例如按钮上的文本像"确定"和"取消"。
+
+"窗口文本"允许你区分具有相同标题的多个窗口。
+
+标题和文本都不必完全地指定。
+也就是说 "未命名 - 记" 可以匹配一个窗口具有标题"未命名 - 记事本"。
+查看 SetTitleMatchMode命令的内容知道更多。
+
+用"/reveal"模式查看现在窗口的标题是什么。
+
+特别注意 窗口标题和文本对大小写敏感！！！！
+
+返回目录
+
+
+
+DOS 环境变量
+
+你可以在 AutoIt 脚本任何地方使用DOS环境变量。像在 DOS 批处理文件中一样，只是变量被包含在百分号(%)中。
+
+例如，你想把当前DOS路径信息发送到记事本窗口你将做：
+
+Run, notepad.exe
+WinWaitActive,未命名 - 记事本
+Send, This is the DOS path %PATH%
+
+
+例如这个例子设置test变量并在消息框中输出。
+SetEnv, test,这是输出
+MsgBox, 0,示例, %test%
+
+
+特别注意 因为它的特殊情况，如果你想使用一个百分号而不在变量中改变它的实际意义，你必须先使用反斜杠 '\'。
+例如
+Send, This will send a single percent sign \%
+
+你也可以使用 "SetEnv"设置变量，但是 这些改变在 DOS中是不可见的 - 这个值只在当前脚本中有效。
+
+特别注意 一些 AutoIt 特别地使用一个变量作为参数，在这种情况下不必使用百分号。 一些和 AutoIt一起带来的示例可以示范这一点。
+
+
+返回目录
+
+
+
+剪贴板变量
+
+变量%CLIPBOARD% 是特殊的，使用时将被替换为剪贴板中的文本。 例如，把"Hello!" 拷贝到剪贴板然后运行以下脚本：
+
+MsgBox, 0,示例,剪贴板的内容是： %clipboard%
+
+"剪贴板的内容是：Hello!"将被输出到屏幕上。
+
+同样的，如果你想把文本发送到剪贴板，你可以使用SetEnv命令。  例如把文本"我是一些粘贴的文本"发送到剪贴板你可以运行：
+
+SetEnv, clipboard,我是一些粘贴的文本
+
+
+返回目录
+
+
+
+特殊变量
+
+在 AutoIt 中有一些特殊变量在下面加以描述：
+
+AutoIt变量	包含
+A_OSTYPE	运行的操作系统类型。 "WIN32_WINDOWS"或"WIN32_NT"。
+A_SCRIPTNAME	当前脚本名称，例如 "myscript.aut"。
+A_SCRIPTDIR	当前脚本存在的目录。
+A_SCRIPTFULLPATH	当前脚本路径全称，例如 "C:\Windows\Scripts\myscript.aut".
+A_WORKINGDIR	当前工作目录。
+ 	 
+A_SEC	秒(00-59)
+A_MIN	分钟 (00-59)
+A_HOUR	小时(00-23)
+A_MDAY	日(01-31)
+A_MON	月(01-12)
+A_YEAR	年(4 位数字，例如 2000)
+A_WDAY	星期(1-7)
+A_YDAY	一年中的第几天(1-366)
+
+
+脚本命令
+
+以下是当前可用到的命令（命令不区分大小写）：
+
+AdlibOn
+AdlibOff
+BlockInput, <on | off>
+Break, <on | off>
+DetectHiddenText, <on | off>
+Exit
+EndRepeat
+Gosub, <标签>
+EnvAdd, <变量>, <值>
+EnvSub, <变量>, <值>
+FileAppend, <文本>, <文件名>
+FileReadLine, <变量>, <文件名>, <行>
+Goto, <标签>
+HideAutoItWin, <on | off>
+IfInString, <字符串变量>, <查找字串>, <命令>
+IfNotInString, <字符串变量>, <查找字串>, <命令>
+IfWinExist, <窗口标题>, [<窗口文本>], <命令>
+IfWinNotExist, <窗口标题>, [<窗口文本>], <命令>
+IfWinActive, <窗口标题>, [<窗口文本>], <命令>
+IfWinNotActive, <窗口标题>, [<窗口文本>], <命令>
+IfEqual, <变量>, <文本>, <命令>
+IfNotEqual, <变量>, <文本>, <命令>
+IfGreater, <变量>, <数值>, <命令>
+IfGreaterOrEqual, <变量>, <数值>, <命令>
+IfLess, <变量>, <数值>, <命令>
+IfLessOrEqual, <变量>, <数值>, <命令>
+IfExist, <文件或目录>, <命令>
+IfNotExist, <文件或目录>, <命令>
+IfMsgBox, <返回值>, <命令>
+IniRead, <变量>, <文件名>, <节>, <关键字>
+IniWrite, <值>, <文件名>, <节>, <关键字>
+IniDelete, <文件名>, <节>, <关键字>
+InputBox, <变量>, <标题>, <信息>
+LeftClick, <x>, <y>
+LeftClickDrag, <x1>, <y1>, <x2>, <y2>
+MouseGetPos, <x 变量>, <y 变量>
+MouseMove, <x 点>, <y 点>
+MsgBox, <显示模式>, <标题>, <信息>
+Random, <输出变量>, <最小值>, <最大值>
+RegRead, <变量>, <数据类型>, <根键>, <主键>, <键名>
+RegWrite, <数据类型>, <根键>, <主键>, <键名>, <键值>
+RegDelete, <根键>, <主键>, <键名>
+Repeat, <计数>
+Return
+RightClick, <x>, <y>
+RightClickDrag, <x1>, <y1>, <x2>, <y2>
+Run, <程序名与路径> [,<工作目录>]
+RunWait, <程序名与路径> [,<工作目录>]
+Send, <按键序列>
+SetEnv, <变量>, <值>
+SetKeyDelay, <毫秒>
+SetTitleMatchMode, <模式>
+SetWinDelay, <毫秒>
+Shutdown, <标志>
+Sleep, <毫秒>
+SplashTextOn, <宽>, <高>, <标题>, <信息>
+SplashTextOff
+StringCaseSense, <On | Off>
+StringLeft, <输出变量>, <输入变量>, <摘取字符数量>
+StringRight, <输出变量>, <输入变量>, <摘取字符数量>
+StringMid, <输出变量>, <输入变量>, <开始字符>, <摘取字符数量>
+StringLen, <输出变量e>, <输入变量>
+StringReplace, <输出变量> , <输入变量>, <查找字串>, <替换字串>
+StringTrimLeft, <输出变量>, <输入变量>, <删剪字符数量>
+StringTrimRight, <输出变量>, <输入变量>, <删剪字符数量>
+WinGetActiveTitle, <变量>
+WinKill, <窗口标题> [,<窗口文本>]
+WinWait, <窗口标题> [,<窗口文本>]
+WinWaitClose, <窗口标题> [,<窗口文本>]
+WinWaitActive, <窗口标题> [,<窗口文本>]
+WinWaitNotActive, <窗口标题> [,<窗口文本>]
+WinHide, <窗口标题> [,<窗口文本>]
+WinRestore, <窗口标题> [,<窗口文本>]
+WinShow, <窗口标题> [,<窗口文本>]
+WinMinimize, <窗口标题> [,<窗口文本>]
+WinMaximize, <窗口标题> [,<窗口文本>]
+WinActivate, <窗口标题> [,<窗口文本>]
+WinClose, <窗口标题> [,<窗口文本>]
+WinMinimizeAll
+WinMove, <窗口标题>, [<窗口文本>], <X>, <Y>, <宽>, <高>
+WinSetTitle, <窗口标题>, [<窗口文本>], <新标题>
+
+这些命令的语法在下面给出：
+
+返回目录
+
+
+
+AdlibOn
+AdlibOff
+
+允许活禁止处理[ADLIB]节。
+
+BlockInput, <on | off>
+
+这个命令用以禁止鼠标和键盘输入。 在不同的操作系统的配置如下：
+
+操作系统	"BlockInput"结果
+ 	 
+Windows 95	没有效果。
+Windows 98	用户输入被禁止而且AutoIt同样无法模拟输入。
+Windows NT 4 （无 ServicePack 6）	没有效果。
+Windows NT 4 (有 ServicePack 6)	用户输入被禁止而且AutoIt可以模拟输入。
+Windows 2000	用户输入被禁止而且AutoIt可以模拟输入。
+脚本关闭时输入将自动被开启。
+
+Break, <on | off>
+
+这个命令告诉AutoIt用户是否可以关闭AutoIt。 缺省是"on"（也就是用户可以关闭AutoIt）
+
+例如
+Break, On
+
+DetectHiddenText, <on | off>
+
+一些程序使用隐藏的窗口和窗口中的文本(例如 Backup Exec)这将在为它们编写脚本时引起问题。 这个命令允许你告诉AutoIt是否检测这些隐藏的文本。 缺省是"off".
+
+Exit
+
+这个命令会结束脚本。
+
+EnvAdd, <变量>, <值>
+EnvSub, <变量>, <值>
+
+允许加或减环境变量。 如果变量或值不是数字，将做零处理（0）。
+
+例如
+SetEnv, test, 20
+EnvAdd, test, 20
+MsgBox, 0, 示例, %test%
+
+将输出"40"在屏幕上。  
+
+FileAppend, <文本>, <文件名>
+
+这个命令添加"文本" 到一个文件的末尾。  如果这个文件不存在，它将被建立。
+
+例如
+FileAppend,这是第一行\n这是第二行\n, myfile.txt
+
+将添加两行文本到"myfile.txt"，注意使用"\n"指出一个新行是必需的。
+
+如果命令成功%ERRORLEVEL%被置为0否则置为1。
+
+FileReadLine, <变量>, <文件名>, <行>
+
+这个命令将从一个文件读出一行文本到一个变量。 行 1 为首行。
+
+例如
+FileReadLine, test, myfile.txt, 1
+
+读出"myfile.txt"的首行到变量%test%。
+
+如果命令成功%ERRORLEVEL%被置为0否则置为1。
+
+Gosub,<标签>
+Return
+
+就像老的BASIC命令一样。Gosub 将转移到指定的标签。Return 将返回到 Gosub 命令的后一行。
+
+例如
+SetEnv, MyMessage,第一条信息!
+Gosub, mysubroutine
+SetEnv, MyMessage, 第二条信息!
+Gosub, mysubroutine
+SetEnv, MyMessage,第三条信息！
+Gosub, mysubroutine
+Exit
+
+mysubroutine:
+MsgBox, 0, AutoIt, %MyMessage%
+Return
+
+Goto, <标签>
+
+脚本将在指定的标签后继续运行。
+
+例如
+;这个脚本经永远循环下去
+myloop:
+Sleep, 10
+Goto, myloop
+
+HideAutoItWin, <on | off>
+
+这个命令可以用来完全地隐藏AutoIt窗口。 非常有用在"静默"安装中。
+
+例如
+HideAutoItWin, On
+
+IfInString, <字符串变量>, <查找字串>, <命令>
+IfNotInString, <字符串变量>, <查找字串>, <命令>
+
+检查是否<查找字串>的内容正包含在<字符串变量>中。 如果条件满足 <命令>将被执行。
+
+例如检查"Hello"这个词是否包含在字串"Hello this is a string"中
+SetEnv, search, Hello this is a string
+IfInString, search, Hello, MsgBox, 0,匹配,是的，找到了
+
+（将输出"是的，找到了"）
+
+ 
+
+IfWinExist, <窗口标题>, [<窗口文本>], <命令>
+IfWinNotExist ,<窗口标题>, [<窗口文本>], <命令>
+IfWinActive, <窗口标题>, [<窗口文本>], <命令>
+IfWinNotActive, <窗口标题>, [<窗口文本>], <命令>
+
+如果条件满足（也就是说窗口的标题和文本存在，活动，不存在，非活动）那么脚本将执行<命令>。
+特别注意如果没有指定窗口文本，则必须包含额外的逗号。
+例如
+IfWinExist,标题,文本, Goto,标签
+IfWinExist,标题,, Goto,标签
+
+IfEqual,<变量>,<文本>, <命令>
+IfNotEqual,<变量>, <文本>, <命令>
+
+将比较<变量>和<文本>然后根据结果转向。
+
+例如
+InputBox, MyVar, AutoIt,请输入词：WOMBLE
+IfEqual, MyVar, WOMBLE, Goto, match
+MsgBox, 0, AutoIt,你的输入不正确！
+Exit
+match:
+MsgBox, 0, AutoIt,很好！你输入对了！
+
+IfGreater, <变量>, <数值>, <命令>
+IfGreaterOrEqual, <变量>, <数值>, <命令>
+IfLess, <变量>, <数值>, <命令>
+IfLessOrEqual, <变量>, <数值>, <命令>
+
+将比较<变量>和<数值>然后根据结果转向。  如果参数不是数字的，它们将被视为零。
+
+IfExist,<文件或目录>,<命令>
+IfNotExist,<文件或目录>,<命令>
+
+将执行<命令>如果指定的文件或目录存在/不存在。
+
+例如
+IfExist, C:\\COMMAND.COM, Goto, fileexist
+Exit
+fileexist:
+
+;如果 C:\COMMAND.COM存在，脚本会到这。
+MsgBox, 0, AutoIt,文件存在
+
+IfMsgBox, <返回值>, <命令>
+
+用来执行一个命令 取决于用户在消息框上所按的按钮。有效的消息框的返回值是：
+ABORT, CANCEL, IGNORE, NO, OK, RETRY, YES 
+
+例如放置一个具有确定和取消按钮的消息框，然后转向如果
+用户选择取消：
+
+;示例脚本
+MsgBox, 1, AutoIt,测试
+IfMsgBox, CANCEL, Goto, cancellabel
+Exit
+cancellabel:
+;用户按下取消，脚本到这
+MsgBox, 0, AutoIt,用户按下了取消
+
+IniRead, <变量>, <文件名>, <节>, <关键字>
+IniWrite, <值>, <文件名>, <节>, <关键字>
+IniDelete, <文件名>, <节>, <关键字>
+
+允许读和写标准windows .ini 文件。也就是说以下的格式。  
+
+[节]
+关键字=值
+
+例如从一个 ini 文件的一部分"mysection"读出"mykey"的值，到变量"%result%"：
+IniRead, result, c:\\mypath\\myfile.ini, mysection, mykey
+
+例如写入文本"womble"到同样的节和关键字：
+IniWrite, womble, c:\\mypath\\myfile.ini, mysection, mykey
+
+例如写入DOS路径信息到同样的节和关键字：
+IniWrite, %path%, c:\\mypath\\myfile.ini, mysection, mykey
+
+例如删除DOS路径信息从同样的节和关键字：
+IniDelete, c:\\mypath\\myfile.ini, mysection, mykey
+
+特别注意 必须给出 .ini 文件的完整路径和文件名。
+
+InputBox,<变量>, <标题>, <信息> [,hide]
+
+引出一个包含<信息>的对话框。用户可以输入文本并按下确定，输入的文本将被储存到DOS变量<变量>中。 如果使用 "hide"参数，输入将被屏蔽（如输入密码）。
+
+例如
+InputBox, MyMessage, AutoIt, 请输入一些文本来显示！
+MsgBox, 0, AutoIt, %MyMessage%
+
+例如
+InputBox, password, AutoIt, 输入你的密码（输入是隐藏的）, hide
+
+LeftClick, <x>, <y>
+RightClick, <x>, <y>
+
+模拟鼠标左键或右键点击。X，Y坐标是相对当前活动窗口的。以展现模式运行AutoIt来确定一个窗口的坐标。
+进行双击，只要执行这个命令两次:)
+
+LeftClickDrag, <x1>, <y1>, <x2>, <y2>
+RightClickDrag, <x1>, <y1>, <x2>, <y2>
+
+按下相应的鼠标按钮，拖拽鼠标指针从x1,y1 到x2,y2。  坐标是相对当前活动窗口的。
+
+MouseGetPos, <x 变量>, <y 变量>
+
+这个命令取得当前鼠标指针的位置，保存到'x'和'y' 变量中。 坐标是相对当前活动窗口的。
+
+例如
+MouseGetPos, xpos, ypos
+MsgBox, 0, 示例, 鼠标在%xpos% %ypos%
+
+MouseMove, <x 点>, <y 点>
+
+本命令移动鼠标指针到位置<x点>，<y点>。 坐标是相对当前活动窗口的。
+
+MsgBox, <显示模式>, <标题>, <信息>
+
+以指定的信息显示一个对话框。不同的显示模式将给出不同的显示结果（外观，按钮数量）。模式的清单在下面给出，加上你需要的显示模式的号码。
+
+例如显示"Hello"只有一个"确定"按钮：
+MsgBox, 0, AutoIt, Hello
+
+例如显示"Hello"在警告框中并有确定和取消：
+MsgBox, 49, AutoIt, Hello
+(1=OKCANCEL, 48=Exclamation, = 49) 
+
+功能	AutoIt 值
+MB_OK	0
+MB_OKCANCEL	1
+MB_ABORTRETRYIGNORE	2
+MB_YESNOCANCEL	3
+MB_YESNO	4
+MB_RETRYCANCEL	5
+ 	 
+MB_ICONHAND	16
+MB_ICONQUESTION 	32
+MB_ICONEXCLAMATION	48
+MB_ICONASTERISK	64
+ 	 
+MB_APPLMODAL	0
+MB_SYSTEMMODAL	4096
+MB_TASKMODAL	8192
+ 
+
+Random, <输出变量>, <最小值>, <最大值>
+
+本命令在<最小值>和<最大值>之间产生一个随机数。 （这些数值必须在 0 到 32767 之间）。
+
+例如产生一个 1 到 200 之间的随机数。
+Random, output, 1, 200
+MsgBox, 0, Result, %output%
+
+（将输出0 到200 之间的随机数）
+
+RegRead, 变量,数据类型,根键,主键, 键名
+
+这个命令允许你从注册表读取 REG_SZ 和 REG_DWORD 的值. 如果成功%ERRORLEVEL% 被设为0，否则设为1。
+
+根键必须是"HKEY_LOCAL_MACHINE", "HKEY_CURRENT_USER", "HKEY_USERS", "HKEY_CURRENT_CONFIG"或 "HKEY_CLASSES_ROOT"中的一个。
+数据类型必须是"REG_DWORD" 或者"REG_SZ"。
+
+例如读取本地"Program Files"的目录到变量"TestKey"：
+RegRead, TestKey, REG_SZ, HKEY_LOCAL_MACHINE, Software\\Microsoft\\Windows\\CurrentVersion, ProgramFilesDir
+MsgBox, 0, 示例,程序文件在%TestKey%
+
+RegWrite,数据类型,根键, 主键, 键名,键值
+
+类似RegRead命令，允许你建立或修改一个注册表键。 如果成功 %ERRORLEVEL%被置为0，否则为1。
+
+例如改变当前用户的壁纸：
+RegWrite, REG_SZ, HKEY_CURRENT_USER, Control Panel\\Desktop, Wallpaper, C:\\Mycrazybitmap.bmp
+
+RegDelete,根键,主键, 键名
+
+删除一个注册表键值。如果成功%ERRORLEVEL%被设为0，否则设为1。
+
+例如删除当前用户壁纸的值（不是格外的推荐 :)）；
+RegDelete, HKEY_CURRENT_USER, Control Panel\\Desktop, Wallpaper
+
+Run, <程序名和路径> [,<工作目录> [,<max | min | hide>]]
+
+执行给定的程序，然后处理脚本的下一行。特别注意要运行的程序与工作目录之间以逗号分隔','。工作目录是可选的。
+
+>>>>> 特别注意 因为'\'是特殊字符，所以必须使用'\\' 指定路径！ <<<<<
+
+例如 
+Run, notepad.exe, C:\\WINDOWS
+Run, C:\\Program Files\\Microsoft Office\\Office\\WinWord.exe
+
+第一个命令运行记事本并把工作目录设为"C:\WINDOWS"。
+第二个命令在当前目录运行MS WORD。
+
+也可以运行COMMAND解释命令如 Echo, Copy, 等等
+
+例如 
+Run, COMMAND.COM /C Echo Hello > C:\\Hello.txt
+或
+Run, %COMSPEC% /C Echo Hello > C:\\Hello.txt
+
+建立名为C:\Hello.txt的文件包含 "Hello"这个词。
+
+RunWait, <程序名和路径> [,<工作目录> [,<max | min | hide>]]
+
+同 Run 命令一样，但等命令执行完成后再继续（建议在执行 DOS 命令时像 copy，md，del，等等）。  
+
+这个命令同样设置变量 %ERRORLEVEL% 为程序的返回码。
+
+Repeat, <计数>
+EndRepeat
+
+重复执行一段脚本到"EndRepeat"命令共 <计数>次。 如果<计数>是零将无限循环。  Repeat声明可以被嵌套。
+
+例如
+Repeat, 10
+MsgBox, 0,示例,这会显示十次。
+EndRepeat
+
+Send, <按键序列>
+
+想当前窗口发送一组按键。（这些按键的语法可以在下面找到）。
+
+例如 
+Send, This is a line of text#{ENTER}
+
+SetEnv, <变量>, <值>
+
+这个命令设置环境变量为指定的值。
+特别注意 这个变量只在 AutoIt 中存在，你不能从 DOS 访问它。
+
+例如设置环境变量"ERROR" 为"有一个错误。"：
+SetEnv, ERROR,有一个错误。
+
+使用这个变量是要用百分号：
+
+例如运行前面的命令后，将输出："有一个错误。"：
+MsgBox, 1, AutoIt, %ERROR%
+
+SetKeyDelay, <毫秒>
+
+以毫秒为单位改变击键的延迟。最大为32767。
+缺省是 20ms。1000 毫秒 = 1 秒。
+
+SetTitleMatchMode, <模式>
+
+改变脚本中窗口标题的匹配方式
+有效的模式是"1"和"2" - 缺省是"1"。这个模式会影响 AutoIt 中大部分有关窗口标题和文本的命令，也就是说 WinWait, WinWaitActive, IfWinActive, 等等。
+
+例如
+;脚本使用模式 1 （缺省）
+SetTitleMatchMode, 1
+
+;脚本使用模式 2
+SetTitleMatchMode, 2
+
+模式 1
+
+在脚本中指定标题的开始进行匹配。也就是说 对于 notepad.exe 的窗口 （未命名 - 写字板），有效的匹配会是：
+"未命名"，"未命名 -"，"未"和"未命名 - 写字板"。
+
+模式 2
+
+在脚本中你可以指定任何一段你想匹配的窗口标题。还是 notepad.exe 窗口有效的匹配会是：
+"未命名"，"未命名 - 记事本"，"记事本"，"写"。
+
+SetWinDelay, <毫秒>
+
+改变 AutoIt 在窗口相关操作后的延迟时间（等待，最小化，还原，等）。 这在很慢的机器上很有用或在窗口动画激活的时候。 缺省是 500毫秒。
+
+例如
+SetWinDelay, 2000
+Run, Notepad.exe
+WinWaitActive, 未命名 - 写字板
+Send, Hello
+
+在这个里在写字板开启后会有 2000 毫秒（2 秒）的停顿直到"Hello"这个词出现。
+
+Shutdown, <标志>
+
+这个命令允许你执行关闭计算机的各种窗体。 这个类型是由<标志>决定的。 标志可以按下面的表格组合：
+
+功能
+
+标志
+注销当前用户	0
+关闭计算机	1
+重新启动计算机	2
+中止应用程序（可能会丢失未保存的工作）	4
+关机并关闭电源（如果支持的话）	8
+例如关闭计算机并强行中止应用程序 = 关闭 + 中止 = 1 + 4 = 5：
+Shutdown, 5
+
+Sleep, <毫秒>
+
+将脚本的执行挂起给定的几毫秒。最大是32767。
+1000 毫秒 = 1 秒。
+
+SplashTextOn, <宽>, <高>, <标题>, <信息>
+
+这个命令引出一个指定标题和信息的窗口。 这个窗口在最顶端，并且不妨碍它后面的其它窗口。 自动操作时可以为用户弹出一个"不要碰"信息而不影响其它窗口。
+
+SplashTextOff
+
+关闭SplashText显示。
+
+StringCaseSense, <On | Off>
+
+这个命令决定对大小写是否敏感对于命令：IfEqual，IfNotEqual，IfInString，IfNotInString，和 StringReplace。
+
+缺省是off（也就是说比较对大小写不敏感）
+
+StringLeft, <输出变量> , <输入变量>, <摘取字符数量>
+StringRight, <输出变量> , <输出变量>, <摘取字符数量>
+
+这个命令将<输入变量>的内容摘取一定数量的字符储存到<输出变量>中
+
+例如摘取一个字串中最左边的5个字符
+SetEnv, test, Hello this is a test string
+StringLeft, output, test, 5
+MsgBox, 0, AutoIt, The resulting string is %output%
+
+（输出将是"Hello"）
+
+例如摘取一个字串中最右边的6个字符
+SetEnv, test, Hello this is a test string
+StringRight, output, test, 5
+MsgBox, 0, AutoIt, The resulting string is %output%
+
+（输出将是 "string"）
+
+StringMid, <输出变量> , <输出变量>, <开始字符>, <摘取字符数量>
+
+这个命令从 <输入变量>的<开始字符>开始摘取一定数量的字符储存到<输出变量>中。
+
+例如 从字符3开始摘取6个字符
+SetEnv, test, Hello this is a test string
+StringMid, output, test, 7, 4
+MsgBox, 0, AutoIt, The resulting string is %output%
+
+（输出将是 "this"）
+
+StringLen, <输出变量> , <输入变量>
+
+这个命令将<输入变量>字串中字符的数量储存到<输出变量>中。
+
+例如 
+SetEnv, test, Hello this is a test string
+StringLen, output, test
+MsgBox, 0, AutoIt, The string length is %output%
+
+（输出将是"27"）
+
+StringReplace, <输出变量> , <输入变量>, <查找字串>, <替换字串>
+
+这个命令在变量<输入变量>中查找 <查找字串>。 查找到的字串将被替换为<替换字串>并将结果储存到变量<输出变量>中。 如果找不到，<输出字串>的内容将和<输入字串>一样
+
+例如 
+SetEnv, teststring, Hello this is a test string
+StringReplace, output, teststring, test, testing testing 1 2 3
+MsgBox, 0, AutoIt, %output%
+
+（输出将是"Hello this is a testing testing 1 2 3 string"）
+
+StringTrimLeft, <输出变量> , <输入变量>, <删剪字符数量>
+StringTrimRight, <输出变量> , <输入变量>, <删剪字符数量>
+
+这个命令把<输入变量>的内容删剪一些字符后放到<输出变量>中。
+
+例如删剪一个字串最左边的6个字符
+SetEnv, test, Hello this is a test string
+StringLeft, output, test, 6
+MsgBox, 0, AutoIt, The resulting string is %output%
+
+（输出将是"this is a test string"）
+
+例如删剪一个字串最右边的7个字符
+SetEnv, test, Hello this is a test string
+StringRight, output, test, 7
+MsgBox, 0, AutoIt, The resulting string is %output%
+
+（输出将是"Hello this is a test"）
+
+WinGetActiveTitle, <变量>
+
+这个命令取得活动窗口的标题并保存到DOS变量<变量>中
+
+例如
+Sleep, 2000
+WinGetActiveTitle, myvar
+MsgBox, 0, AutoIt, 活动的窗口是%myvar%
+
+WinKill, <窗口标题> [,<窗口文本>]
+
+类似关闭窗口，单如果几秒钟后窗口没有关闭（提示保存，崩溃，等等）这个窗口将被强制中止。
+
+WinWait, <窗口标题> [,<窗口文本> [,<超时>]]
+
+停止脚本运行，直到指定的窗口存在。这个窗口不必是活动的。 
+
+如果指定了，"超时"以秒来计。 本行执行之后，环境变量%ERRORLEVEL%被置为0如果成功完成，或 1如果超时。 超时的最大值是32767秒。
+
+例如 一直等待记事本窗口
+WinWait, 未命名 - 记事本
+
+例如 等待记事本窗口5秒
+WinWait, 未命名 - 记事本,, 5
+
+WinWaitClose, <窗口标题> [,<窗口文本> [,<超时>]]
+
+停止脚本运行，直到指定的窗口不再存在。
+
+如果指定了，"超时"以秒来计。 本行执行之后，环境变量%ERRORLEVEL%被置为0如果成功完成，或 1如果超时。
+
+例如
+WinWaitClose, 未命名 - 记事本
+
+WinWaitActive, <窗口标题> [,<窗口文本> [,<超时>]]
+
+停止脚本运行，直到指定的窗口存在并且活动。
+
+如果指定了，"超时"以秒来计。 本行执行之后，环境变量%ERRORLEVEL%被置为0如果成功完成，或 1如果超时。
+
+WinWaitNotActive, <窗口标题> [,<窗口文本> [,<超时>]]
+
+停止脚本运行，直到指定的窗口不再活动。
+
+如果指定了，"超时"以秒来计。 本行执行之后，环境变量%ERRORLEVEL%被置为0如果成功完成，或 1如果超时。
+
+WinHide, <窗口标题> [,<窗口文本>]
+WinShow, <窗口标题> [,<窗口文本>]
+WinRestore, <窗口标题> [,<窗口文本>]
+WinMinimize, <窗口标题> [,<窗口文本>]
+WinMaximize, <窗口标题> [,<窗口文本>]
+WinActivate, <窗口标题> [,<窗口文本>]
+WinClose, <窗口标题> [,<窗口文本>]
+
+如果窗口存在，相应的命令（也就是说最小化，隐藏，活动，等等）将被执行。
+
+WinMove, <窗口标题>, [<窗口文本>], <X>, <Y>, <宽>, <高>
+
+如果具有指定标题和文本的窗口存在，它就被移动到<X>，<Y>并改变大小到<宽gt;，<高>
+
+例如
+
+Run, notepad.exe
+WinWaitActive, 未命名 - 记事本
+WinMove, 未命名 - 记事本,, 0, 0, 100, 100
+
+移动记事本窗口到 0,0 并改变大小到 100,100
+
+如果你不指定窗口文本记住包含那个逗号。  "default"可以用来指定宽和高，如果你不想改变窗口的大小
+
+例如
+WinMove, 未命名 - 记事本,, 0, 0, default, default
+
+WinSetTitle, <窗口标题>, [窗口文本], <新标题>
+
+用这个命令为一个窗口重命名。
+
+例如
+Run, notepad.exe
+WinWaitActive,未命名 - 记事本
+WinSetTitle, 未命名 - 记事本,,改了名的记事本!
+
+WinMinimizeAll
+
+很简单地，这个命令会最小化所有窗口。
+
+返回目录
+
+
+
+"Send"命令语法
+
+"Send" 命令的语法和 ScriptIt 还有 Visual Basic 的 "SendKeys"命令很相似。发送的字符有如下的例外：
+
+'!'
+告诉 AutoIt 发送ALT 键，因此 "Send,This is text!a"会发送按键"This is text"然后发送"ALT+a"。 
+
+特别注意 一些程序非常挑剔大写字母和 ALT 键，也就是说 "!A" 和 "!a"不同。前一个是说 ALT+SHIFT+A后一个是 ALT+a。如果拿不准就用小写字母！
+
+'+'
+告诉 AutoIt 发送一个 SHIFT键，因此 "Send,Hell+o" 会发送"HellO"。 "Send,!+a"会发送"ALT+SHIFT+a"。
+
+'^'
+告诉 AutoIt 发送一个 CONTROL 键，因此"Send,^!a" 会发送"CTRL+ALT+a"。
+
+特别注意 一些程序非常挑剔大写字母和 CTRL 键， 也就是说 "^A" 和 "^a"不同。前一个是 CTRL+SHIFT+A，后一个是 CTRL+a。如果拿不准就用小写字母！
+
+'#'
+作为一个分隔符使一行更加可读。  也就是说 "Send, H#e#l#l#o"和"Send,Hello"一样。
+
+
+这几个特殊按键可以被附上大括号发送：
+
+特别注意  Windows 不允许模拟"CTRL-ALT-DEL" 组合！
+
+Send 命令	
+发生按键
+
+{!}	!
+{#}	#
+{+}	+
+{^}	^
+{{}	{
+{}}	}
+{SPACE}	空格
+{ENTER}	回车
+{ALT}	ALT
+{BACKSPACE} or {BS}	退格
+{DELETE} or {DEL}	删除
+{UP}	箭头上
+{DOWN}	箭头下
+{LEFT}	箭头左
+{RIGHT}	箭头右
+{HOME}	HOME
+{END}	END
+{ESCAPE} or {ESC}	ESC
+{INSERT} or {INS}	INS
+{PGUP}	PGUP
+{PGDN}	PGDN
+{F1} - {F12}	功能键
+{TAB}	TAB
+{PRINTSCREEN}	PRINTSCR
+{LWIN}	左窗口键
+{RWIN}	右窗口键
+{NUMLOCK}	NUMLOCK
+{CTRLBREAK}	Ctrl+break
+{PAUSE}	PAUSE
+{CAPSLOCK}	CAPSLOCK
+{NUMPAD0} - {NUMPAD 9}	小键盘数字
+{NUMPADMULT}	小键盘乘
+{NUMPADADD}	小键盘加
+{NUMPADSUB}	小键盘减
+{NUMPADDIV}	小键盘除
+{NUMPADDOT}	小键盘点
+{APPSKEY}	窗口应用键
+{ALTDOWN}	一直按着 ALT 键直到发送{ALTUP}
+{SHIFTDOWN}	一直按着 SHIFT 键直到发送{SHIFTUP}
+{CTRLDOWN}	一直按着 CTRL 键直到发送{CTRLUP}
+{ASC nnnn}	发送ALT+nnnn 组合
+
+发送ASCII值 A （等同于在小键盘按 ALT+65 ）
+    Send, {ASC 65}
+
+单个的按键也可以重复， 例如
+    Send, {DEL 4}   按 DEL 键 4 次
+    Send, {S 30}      发送 30 个'S'
+    Send, +{TAB 4}  按下 SHIFT+TAB 4 次
+
+返回目录
+
+
+
+[ADLIB] 节
+
+[ADLIB] 是可选的, 如果存在，可以放到脚本文件的最后。ADLIB 节是被设计来处理未意料到的情况。ADLIB 由检测窗口是否激活的单行命令组成，如果窗口激活，就向它发送按键。
+ADLIB 节必须由"[ADLIB]"行开始。
+
+ADLIB 节中一行的格式为：
+
+<窗口标题>,<窗口文本>,<命令>
+
+例如
+Run,Notepad.exe
+WinWaitActive,未命名 - 记事本
+Send,12345678#!{F4}
+WinWaitClose,未命名 - 记事本
+
+[ADLIB]
+记事本, 是否保存更改?, Send, !n
+
+没有 ADLIB 节，由于记事本在有人对“是否保存更改？”作出回答前永远不会关闭，脚本也将无法结束。
+
+ADLIB 命令必须包含窗口标题和窗口上的一些文本。如果窗口上没有文本，或你不想指定文本，那么你必须使用双逗号。
+
+例如
+Run,Notepad.exe
+WinWaitActive,无标题 - 记事本
+Send,12345678#!{F4}
+WinWaitClose,无标题 - 记事本
+
+[ADLIB]
+记事本,, Send, !n
+
+
+返回目录
+
+
+
+示例
+
+一些 英文示例包含在本软件包内，其它的可以在 AutoIt 主页找到。
+
+返回目录
+
+
+
+AutoIt 历史
+
+03/12/2000 - v2.51
+
+安装程序使用 Microsoft Windows Installer。
+加入了命令StringLeft，StringRight，StringMid，StringLen，StringTrimLeft，StringTrimRight，IfInString，IfNotInString，StringReplace。
+字串比较（IfEqual，IfNotEqual，IfInString，IfNotInString，StringReplace）可以具有大小写敏感控制StringCaseSense命令。
+加入了 Random命令。
+修正了MsgBox 和 InputBox在 NT4 下的错误（结果在执行这些命令是使AutoIt窗口在任务栏中可见）
+修正了ADLIB 节使Gosub 和Goto 正确地工作。
+07/11/2000 - v2.5
+
+修正了在Windows NT下RegRead， RegWrite和RegDelete 命令非管理员用户的访问权限。
+加入了命令IfLess，IfLessOrEqual，IfGreater，IfGreaterOrEqual。
+展现模式包含了活动窗口的尺寸。
+17/6/2000 - v2.42
+
+加入了 IniDelete，RegDelete命令。
+加入了BlockInput命令禁止鼠标和键盘输入。（特别注意只在 Win2000/NT4 SP6 下满意地工作- 恐怕是我能做的最好的了）
+"/p"对命令行参数大小写不敏感。
+WinWait 中的 "超时" 精确了。
+加入了简单的文件程序FileAppend 和 FileReadLine。
+如果使用了{CTRLDOWN}，{SHIFTDOWN}或{ALTDOWN}键，那些键会一直保持"按下"直到另外指定{CTRLUP}，{SHIFTUP} 或 {ALTUP}键（甚至在脚本的最后）。  用这些键精明些 :)
+11/02/2000 - v2.41
+
+RegWrite的错误修复了。
+09/02/2000 - v2.4
+
+变量包含逗号的问题解决了。
+加入了一些变量来访问时间，日前，当前脚本路径，操作系统（NT 或 9x）。
+可以用右键单击任务条上的图标来暂停或恢复脚本的运行。
+加入了REG_SZ 和REG_DWORD 类型的简单注册表读/写操作。
+修正了一个命令行参数和引号的错误。
+20/12/99 - v2.32
+
+应用了一些相当残酷的优化，是执行文件降到 12k。
+Aut2Exe记忆最后使用脚本，执行文件和图标的目录。
+可以使用引号("....")指定带空格的命令行参数。
+12/12/99 - v2.31
+
+脚本中最大行长度增加到1024 个字符（不包括被忽视的字符）。
+脚本运行时内存的使用减少到一个因数 12!(不这样就总是有牢骚 :)） 
+10/12/99 - v2.3
+
+修复了各种环境变量的错误。
+现在能正确的发送到DOS（我希望 :)）。
+InputBox加入了可选的参数屏蔽输入。
+命令行参数可跟到脚本后。
+脚本转换 .exe时支持用户定义图标 。
+MouseGetPos和MouseMove命令加入了，
+不再使用ASPack，尽管你自己可以感觉自由地使用它或其他的EXE压缩软件在AutoIt上(http://www.aspack.com)。
+25/11/99 - v2.23
+
+WinActivate调整了在Win2000 RC2。
+Shutdown命令加入了。
+WinKill命令加入了。
+23/11/99 - v2.22
+
+变量 %CLIPBOARD%包含了剪贴板中的文本内容。
+现在可以从 AutoIt粘贴文本到剪贴板。
+加入了 IniRead和IniWrite对INI 文件读写操作。
+20/11/99 - v2.21
+
+现在可以Send十进制ASCII 代码，像使用ALT 键和数字小键盘（例如 ALT+65 = 'A'）。 非常有用来发送一些不正常的字符（例如 '~' 在意大利键盘上）
+18/11/99 - v2.2
+
+现在可以运行程序为隐藏，最大化或最小化（在执行DOS命令时避免黑屏）
+RunWait会输出程序返回码到%ERRORLEVEL%
+WinWait一组命令可以设置在一段时间后超时（%ERRORLEVEL%可用来查看是否是超时）
+WinShow命令加入了（先前没有简单的方法"撤销"WinHide！！！！）
+16/09/99 - v2.11
+
+修正了在"Adlib"节中环境变量不生效的错误。
+重新建立 Win98 下的安装解决一些安装问题。
+11/09/99 - v2.1
+
+Aut2Exe脚本转换加入了安装。
+修正了Run和RunWait 的内部错误。
+加入了按键{CTRLUP}， {CTRLDOWN}，{SHIFTUP}， {SHIFTDOWN}， {ALTUP}，{ALTDOWN}。
+28/08/99 - v2.03
+
+AutoIt2.exe 和AutoItX.dll 使用 ASPack 压缩降低执行文件大小。
+改变了SplashTextOn命令。 你不必再执行 SplashTextOff在第二个SplashTextOn前。
+加入了简单的变量EnvAdd 和EnvSub 命令。
+"default"可以用来指定宽和高在命令WinMove中。
+加入了命令LeftClickDrag和RightClickDrag。
+26/08/99 - v2.02
+
+改变一些内部的定时。
+使splash 窗口有点像"win 3.1 - ish"。
+加入了 AdlibOn和AdlibOff 命令。
+改变了 ADLIB 节的内部操作。
+18/08/99 - v2.01
+
+修复了Send 命令多附加（也就是说 CTRL+SHIFT+key， CTRL+ALT+key）。
+16/08/99 - v2.0
+
+特别注意一些改变意味老的AutoIt 脚本可能需要做一些细微的调整 - 如果你升级了要仔细重读一下文件！因此从 v1.8到v2.0 是跳跃的- 抱歉， but things needed changing to ease implementation of new commands that have been requested. I personally use v1.8 for old scripts and v2.0 for any new scripts I write.
+
+可以发送大部分按键到 DOS窗口 - 终于！
+改变了对'\'，','和'%'的处理方法 - 小心！
+改变了 Run 和 RunWait命令。逗号','来界定工作目录（从此 '*' 是有效的 - 作通配符，等 ）
+加入了一些可以发送的按键包括窗口应用键。
+AutoIt 窗口显示行号和在执行的行。
+有助的(?)带行号的错误信息（不能运行文件，无效的语法等）
+加入了命令：HideAutoItWin，WinWaitNotActive，WinMove，WinSetTitle，DetectHiddenText，WinGetActiveTitle，SetWinDelay，Break，WinMinimizeAll，SplashTextOn，SplashTextOff，Repeat，EndRepeat。
+显示脚本名作为AutoIt系统托盘图标的提示。
+以下命令不再等窗口出现再继续：WinRestore，WinHide，WinMaximize，WinClose，WinMinimize。
+如果不加参数运行，AutoIt会弹出一个"打开文件"对话框。
+"展现"模式的窗口总是在最顶端。（现在只能要求一个展现模式）。
+改变了 MsgBox 命令包含一个标题，并且不在后台挂起。
+改变所有的 "If...."命令去执行一个给定的命令而不是仅仅跳到一个标签。
+改变了 InputBox包含一个标题，并且不在后台挂起。
+无效的命令会被视为错误而不只是不予理睬。
+'\n'，'\t'可以使用在 MsgBox和 InputBox的文本中指出一个新行或制表符。
+最小化到系统托盘图标。如果用了 HideAutoItWin命令就什么也看不到了。
+改变Adlib，以执行指定命令取代了只是发送按键。
+改变了 Sleep（内部）因此 AutoIt 窗口在很长的Sleep时刷新 。
+改变了Gosub/Return。可以用嵌套的子程序，只有空闲内存限制。
+02/04/99 - v1.8
+
+加入了 MsgBox 和IfMsgBox 命令（注意，与 1.8 beta版不同）
+加入了 IfExist 和 IfNotExist命令 用于文件和目录
+加入了 DOS 环境变量支持（例如 Send, Path is %PATH% ）。
+特别注意 因为如此，百分号'%' 现在是特殊的了。如果你真想用这个符合就得做两次 如 %%
+加入了 SetEnv 命令。
+加入了 InputBox 命令。
+加入了 IfEqual 和 IfNotEqual 命令。
+加入了 Gosub 和 Return 命令，
+"页面错误"修正（鼠标坐标超出范围时）
+14/03/99 - v1.7
+
+加入了 {LWIN}和{RWIN} "窗口键"。
+加入了 SetTitleMatchMode命令。（改变匹配窗口标题的方法）
+允许空白的窗口标题（例如 WinWait,,窗口文本)
+AutoIt 执行文件首次增到 44KB。
+28/02/99 - v1.6
+
+加入了 IfWinExist，IfWinNotExist，IfWinActive，IfWinNotActive 命令。
+加入了标签的支持（对于一下命令）。
+加入了 Goto 命令。
+加入了 Exit 命令。
+窗口标题对大小写敏感。也就是说 "NOTEPAD" 和"Notepad"
+不同。
+20/02/99 - v1.5
+
+加入了 {PRINTSCREEN} 命令模拟"PrintScrn"键。
+从"展现"模式拷贝粘贴。（用 CTRL-C 拷贝）。
+加入了命令行语法 - "AutoIt /?"。
+加入了模拟鼠标点击（左右键）。
+加入了在"reveal"模式中的鼠标坐标。
+20/01/99 - v1.4
+
+加入了 {BS}， {INSERT}，{ESCAPE}和 {DELETE}
+加入了 "/reveal2"命令行开关。使得 AutoIt 没半秒更新一次展现窗口（对于复杂的对话框很有用）
+18/01/99 - v1.3
+
+加入了 WinClose 命令。
+"WinWait,Notepad"不会再匹配"Untitled - Notepad"窗口，但是"WinWait,Untitled"可以。
+现在可以在任何地方使用空白（空格和制表符）使脚本看起来更漂亮 :)
+14/01/99 - v1.2
+
+改变了"Run"命令。星号(*)现在声明工作目录的开始
+加入了 [ADLIB]节支持
+正式发布在 winfiles.com 上
+12/01/99 - v1.1
+
+修复 WinActivate 在 Windows 98/NT 2000下！
+加入WinMaximize
+加入执行文件版本信息
+加入图标
+12/01/99 - v1.0
+
+最初版本(beta)
+返回目录
+
+
+
+愿望列单
+
+这是当前突出的一些意见（包括一些东西我不知道怎么去做...），如果你还有什么意见就一样提出来。
+
+列表框/组合框。
+输入框默认值和大小。
+发送到指定的窗口。
+读取鼠标指针状态。
+返回目录
+
+
+
+致谢...
+
+Alex Peters 对于AutoIt 脚本图标(petersa@mail.com)。
+Mark 对于 AutoIt 和 Aut2Exe 的理念(sdv@skanky.force9.co.uk).
+Tim Houser 对于原始的 HTML 帮助。 (saturnknts@feist.com)。
+Dusan Juhas 对于 v1.8 捷克语翻译(juhas3@students.zcu.cz)。
+Victor Gasc髇 对于v1.8西班牙语翻译 (vgascon@bigfoot.com)。
+Jean-Paul Mesnage 对于 v1.8 法语的翻译和意见(J.P.Mesnage@frcl.bull.fr)。
+Davide Fiorentino 对于 v1.8 意大利语翻译(davide.it@writeme.com)。
+Holger Schmitz 对于 v1.8 德语翻译(schmitzh@postkasten.de)。
+Steve Hurcombe 对于"/reveal" 的建议和文件类型资料。
+Per Jacobsen 对于 {PRINTSCREEN} 的建议（其他人之中 :) ）
+Graham Clinch 对于最早的像样的安装程序。
+每一个为我做了翻译的人（包含在他们的翻译文件中 :) ）。
+每一个写信给我提出建议的人（有数百人!!）- 我希望你们继续发现 AutoIt 一些小的用途。
+返回目录
+
+
+翻译后记
+
+翻译了一堆别人的话终于可以写一些自己的东西了！
+当初和作者联系提出要翻译这个东西确实是一时脑热 :( 不过总算完成了 :)
+开始的几天我还是很认真的翻译，会推敲每一个用词，但并不是说后来就不认真了:) 后来只是让自己轻松一些就不再照顾太多的中文语言习惯了。希望看到这个文件的朋友因为我的翻译而弄得一头雾水不知所云请千万别说我坏话啊！毕竟是我第一个翻译作品嘛（恐怕也是最后一个了）！
+
+最后---
+就谨以此可能是我唯一的翻译作品献给（尽管她说看不懂）：
+我亲爱的！娃娃！

@@ -1,4 +1,7 @@
-# Newbee - Learn coding by pair coding #
-* aka the coder.learnpack project *
+English Version:
 
-All we want, is becoming a better developer, and delivering better solution to the world.
+# obee - learn coding with love #
+
+At the beginning of coding career, we all need a mentor somehow, obee match you up with one. All we want, is get together, becoming a better developer, and delivering better solution to the world.
+
+__former coder.learnpack project__

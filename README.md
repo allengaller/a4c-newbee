@@ -8,4 +8,4 @@ __former coder.learnpack project__
 
 中文版介绍:
 
-# 暖床骑士 - 有爱的码农搞基社区
+# 暖床骑士 - 有爱的码农社区
